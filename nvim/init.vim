@@ -1,3 +1,5 @@
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 call plug#begin('~/.config/nvim/plugged')
 
 " Git stuff (2)
@@ -5,7 +7,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " FZF (fuzzy searching)
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
 " Autocomplete
