@@ -1,13 +1,15 @@
-let g:python3_host_prog = '/usr/local/bin/python3'
+if executable('python3')
+  let g:python3_host_prog = 'python3'
+endif
 
 call plug#begin('~/.config/nvim/plugged')
-
 " Git stuff (2)
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " FZF (fuzzy searching)
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
+Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
 " Autocomplete
@@ -25,7 +27,7 @@ let g:UltiSnipsEditSplit="vertical"
 Plug 'honza/vim-snippets'
 
 " Language Server
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 let g:ale_elixir_elixir_ls_release = $HOME . '/.language_servers/.elixir'
 
 " from https://github.com/w0rp/ale/issues/2261
@@ -53,12 +55,19 @@ let g:lightline = {
 " Cool color theme
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 
+" Neomake
+Plug 'neomake/neomake'
+" to auto open the location list
+"let g:neomake_open_list = 2
+
+" Rust
+Plug 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+
 " Elixir (next 3)
 Plug 'elixir-lang/vim-elixir'
 Plug 'thinca/vim-ref'
 Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
-
-Plug 'tpope/vim-dadbod'
 
 call plug#end()
 
@@ -95,20 +104,26 @@ nnoremap ,s :BLines<CR>
 nnoremap ,l :Lines<CR>
 nnoremap ,m :Marks<CR>
 nnoremap ,a :Ag<CR>
+nnoremap ,r :Rg<CR>
+nnoremap ,qo :copen<CR>
 nnoremap ,qn :cnext<CR>
 nnoremap ,qp :cprev<CR>
 nnoremap ,qq :cclose<CR>
+nnoremap ,lo :lopen<CR>
+nnoremap ,ln :lnext<CR>
+nnoremap ,lp :lprev<CR>
+nnoremap ,lq :lclose<CR>
 
 " delete the current buffer, but not the split
 nmap ,d :b#<bar>bd#<CR>
 
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
 endif
 
 " strip whitespace at the end of a line
 autocmd BufWritePre *.js %s/\s\+$//e
-autocmd BufWritePre *.rs %s/\s\+$//e
+"autocmd BufWritePre *.rs %s/\s\+$//e
 
 " Remap C-x C-o to C-Space (for triggering autocomplete)
 inoremap <C-Space> <C-x><C-o>
@@ -119,3 +134,16 @@ autocmd BufReadPost *.rs setlocal filetype=rust
 " Use ALE and also some plugin 'foobar' as completion sources for all code.
 let g:deoplete#sources = {'elixir': ['ale']}
 
+" https://github.com/neomake/neomake
+function! MyOnBattery()
+  if has('macunix')
+    return match(system('pmset -g batt'), "Now drawing from 'Battery Power'") != -1
+  endif
+  return 0
+endfunction
+
+if MyOnBattery()
+  call neomake#configure#automake('w')
+else
+  call neomake#configure#automake('nw', 1000)
+endif
