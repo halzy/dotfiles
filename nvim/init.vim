@@ -1,7 +1,3 @@
-if executable('python3')
-  let g:python3_host_prog = 'python3'
-endif
-
 call plug#begin('~/.config/nvim/plugged')
 " Git stuff (2)
 Plug 'tpope/vim-fugitive'
@@ -20,25 +16,26 @@ let g:deoplete#enable_at_startup = 1
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsSnippetDirectories = ['/users/bhalsted/.config/nvim/UltiSnips']
 let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-n>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+" defaults to c-j and c-k
+" let g:UltiSnipsJumpForwardTrigger="<c-n>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 let g:UltiSnipsEditSplit="vertical"
 " Common language snippets
 Plug 'honza/vim-snippets'
 
 " Language Server
-Plug 'dense-analysis/ale'
-let g:ale_elixir_elixir_ls_release = $HOME . '/.language_servers/.elixir'
+"Plug 'dense-analysis/ale'
+"let g:ale_elixir_elixir_ls_release = $HOME . '/.language_servers/.elixir'
 
 " from https://github.com/w0rp/ale/issues/2261
-let g:ale_linters = {
-\  'elixir': ['credo', 'dialyxir', 'elixir-ls'],
-\}
+"let g:ale_linters = {
+"\  'elixir': ['credo', 'dialyxir', 'elixir-ls'],
+"\}
 
-let g:ale_fixers = {
-\  '*': ['remove_trailing_lines', 'trim_whitespace'],
-\  'elixir': ['mix_format'],
-\}
+"let g:ale_fixers = {
+"\  '*': ['remove_trailing_lines', 'trim_whitespace'],
+"\  'elixir': ['mix_format'],
+"\}
 
 " The status bar
 Plug 'itchyny/lightline.vim'
@@ -57,6 +54,7 @@ Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 
 " Neomake
 Plug 'neomake/neomake'
+let g:neomake_rust_cargo_command = ['test', '--no-run']
 " to auto open the location list
 "let g:neomake_open_list = 2
 
@@ -65,9 +63,12 @@ Plug 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
 
 " Elixir (next 3)
-Plug 'elixir-lang/vim-elixir'
-Plug 'thinca/vim-ref'
-Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
+"Plug 'elixir-lang/vim-elixir'
+"Plug 'thinca/vim-ref'
+"Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
+
+" CTags
+" Plug 'ludovicchabant/vim-gutentags'
 
 call plug#end()
 
@@ -122,17 +123,17 @@ if executable('rg')
 endif
 
 " strip whitespace at the end of a line
-autocmd BufWritePre *.js %s/\s\+$//e
+"autocmd BufWritePre *.js %s/\s\+$//e
 "autocmd BufWritePre *.rs %s/\s\+$//e
 
 " Remap C-x C-o to C-Space (for triggering autocomplete)
 inoremap <C-Space> <C-x><C-o>
 inoremap <C-@> <C-Space>
 
-autocmd BufReadPost *.rs setlocal filetype=rust
+"autocmd BufReadPost *.rs setlocal filetype=rust
 
 " Use ALE and also some plugin 'foobar' as completion sources for all code.
-let g:deoplete#sources = {'elixir': ['ale']}
+"let g:deoplete#sources = {'elixir': ['ale']}
 
 " https://github.com/neomake/neomake
 function! MyOnBattery()
