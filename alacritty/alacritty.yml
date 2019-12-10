@@ -1,6 +1,9 @@
 window:
   decorations: none
 
+font:
+  size: 13.0
+
 colors:
   # Default colors
   primary:
