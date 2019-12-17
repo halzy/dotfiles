@@ -1,4 +1,16 @@
 call plug#begin('~/.config/nvim/plugged')
+" Multi-Cursor
+Plug 'mg979/vim-visual-multi'
+
+" Comments!
+Plug 'scrooloose/nerdcommenter'
+
+" Change surrounding
+Plug 'tpope/vim-surround'
+
+" Insert pairs
+"Plug 'jiangmiao/auto-pairs'
+
 " Git stuff (2)
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
