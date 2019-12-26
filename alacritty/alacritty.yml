@@ -1,8 +1,12 @@
+env:
+  TERM: alacritty
+  COLORTERM: truecolor
+
 window:
   decorations: none
 
 font:
-  size: 13.0
+  size: 13.5
 
 colors:
   # Default colors
