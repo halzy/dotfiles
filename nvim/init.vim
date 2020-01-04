@@ -1,4 +1,8 @@
 call plug#begin('~/.config/nvim/plugged')
+
+" Org Mode
+Plug 'jceb/vim-orgmode'
+
 " Multi-Cursor
 Plug 'mg979/vim-visual-multi'
 
@@ -65,14 +69,29 @@ let g:lightline = {
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 
 " Neomake
-Plug 'neomake/neomake'
-let g:neomake_rust_cargo_command = ['test', '--no-run']
+"Plug 'neomake/neomake'
+"let g:neomake_rust_cargo_command = ['test', '--no-run']
 " to auto open the location list
 "let g:neomake_open_list = 2
 
 " Rust
 Plug 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
+
+Plug 'majutsushi/tagbar'
+
+" rust-lang/rust.vim supports Syntastic
+Plug 'vim-syntastic/syntastic'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
+
 
 " Elixir (next 3)
 "Plug 'elixir-lang/vim-elixir'
@@ -95,9 +114,9 @@ set softtabstop=2
 set expandtab
 
 " For line numbers in the gutter (easy 15j 13k jumping)
-set relativenumber
+"set relativenumber
 set number
-set number relativenumber
+"set number relativenumber
 
 " So that gutter markers appear quicker
 set updatetime=100
@@ -126,6 +145,8 @@ nnoremap ,lo :lopen<CR>
 nnoremap ,ln :lnext<CR>
 nnoremap ,lp :lprev<CR>
 nnoremap ,lq :lclose<CR>
+nmap <F8> :TagbarToggle<CR>
+
 
 " delete the current buffer, but not the split
 nmap ,d :b#<bar>bd#<CR>
@@ -148,15 +169,29 @@ inoremap <C-@> <C-Space>
 "let g:deoplete#sources = {'elixir': ['ale']}
 
 " https://github.com/neomake/neomake
-function! MyOnBattery()
-  if has('macunix')
-    return match(system('pmset -g batt'), "Now drawing from 'Battery Power'") != -1
-  endif
-  return 0
-endfunction
+"function! MyOnBattery()
+"  if has('macunix')
+"    return match(system('pmset -g batt'), "Now drawing from 'Battery Power'") != -1
+"  endif
+"  return 0
+"endfunction
+"
+"if MyOnBattery()
+"  call neomake#configure#automake('w')
+"else
+"  call neomake#configure#automake('nw', 1000)
+"endif
 
-if MyOnBattery()
-  call neomake#configure#automake('w')
-else
-  call neomake#configure#automake('nw', 1000)
-endif
+func! Multiple_cursors_before()
+  if deoplete#is_enabled()
+    call deoplete#disable()
+    let g:deoplete_is_enable_before_multi_cursors = 1
+  else
+    let g:deoplete_is_enable_before_multi_cursors = 0
+  endif
+endfunc
+func! Multiple_cursors_after()
+  if g:deoplete_is_enable_before_multi_cursors
+    call deoplete#enable()
+  endif
+endfunc
