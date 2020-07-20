@@ -1,5 +1,8 @@
 call plug#begin('~/.config/nvim/plugged')
 
+" Case Conversion and more!
+Plug 'tpope/vim-abolish'
+
 " Multi-Cursor
 Plug 'mg979/vim-visual-multi'
 
@@ -15,6 +18,8 @@ Plug 'airblade/vim-gitgutter'
 
 " FZF (fuzzy searching)
 let $FZF_DEFAULT_COMMAND = 'rg --files'
+let $FZF_DEFAULT_OPTS='--reverse' 
+let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.9 } }
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -56,6 +61,7 @@ Plug 'calviken/vim-gdscript3'
 
 call plug#end()
 
+set nowrap
 set encoding=utf-8
 set termencoding=utf-8
 set termguicolors
