@@ -43,12 +43,17 @@ Plug 'itchyny/lightline.vim'
 let g:lightline = { 
       \  'colorscheme': 'challenger_deep',
       \  'active': {
-      \    'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified']],
+      \    'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified', 'cocstatus', 'gitbranch']],
       \  },
-      \  'inactive': {
-      \    'left': [['relativepath']],
-      \  }
+      \ 'component_function': {
+      \   'cocstatus': 'coc#status',
+      \   'gitbranch': 'FugitiveHead',
+      \ }
       \}
+
+" " The status bar                                                                                                          
+" Plug 'vim-airline/vim-airline'                                                                                            
+" Plug 'vim-airline/vim-airline-themes'
 
 " Cool color theme
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
@@ -264,3 +269,4 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
